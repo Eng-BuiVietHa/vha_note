@@ -18,8 +18,8 @@ class GhiChuMoi extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20),
       decoration:BoxDecoration(
         color: (index%2==0)
-          ? const Color.fromARGB(255, 85, 172, 252)
-          : const Color.fromARGB(222, 251, 76, 76),
+          ? const Color.fromARGB(255, 218, 37, 29)
+          : const Color.fromARGB(255, 255, 255, 0),
         borderRadius:BorderRadius.circular(12),
       ),
       child: Padding(

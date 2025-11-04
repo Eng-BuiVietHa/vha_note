@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vha_note/widget/GhiChuMoi_widget.dart';
 import 'package:vha_note/widget/NhapGhiChu_widget.dart';
-
 import 'model/items.dart';
 
 void main() {
@@ -45,22 +44,36 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context){
     return Scaffold (
-      backgroundColor: const Color.fromARGB(255, 190, 244, 188),
+
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
           'Note VHA',
           style:TextStyle(fontSize: 40),
         ),
-        backgroundColor: Colors.blueAccent,
-        
+        backgroundColor: Color.fromARGB(255, 1, 98, 255),
+        elevation: 8,
+        shadowColor: const Color.fromARGB(255, 63, 19, 82).withOpacity(0.3),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20,vertical:20),
-        child: Column(
-          children: items.map((item) => GhiChuMoi(
-            index : items.indexOf(item),
-            item : item, xoa: XoaGhiChu,sua: SuaGhiChu,)).toList(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.jpg'),
+            fit: BoxFit.cover, 
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            children: items.map((item) => GhiChuMoi(
+              index: items.indexOf(item),
+              item: item,
+              xoa: XoaGhiChu,
+              sua: SuaGhiChu,
+            )).toList(),
+          ),
         ),
       ),
       floatingActionButton : FloatingActionButton(
@@ -74,6 +87,7 @@ class _MyAppState extends State<MyApp> {
             },
           );
         },
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         child: Center(
           child: Icon(Icons.add,size: 50,color: Colors.orange,),
         ),
