@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:vha_note/widget/GhiChuMoi_widget.dart';
 import 'package:vha_note/widget/NhapGhiChu_widget.dart';
 import 'model/items.dart';
-
-void main() {
+import 'package:hive_flutter/hive_flutter.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(DuLieuAdapter());
+  await Hive.openBox<DuLieu>('ghichu_box');
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MyApp(),
@@ -17,29 +21,41 @@ class MyApp extends StatefulWidget{
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<DuLieu> items = [];
-
-  void SuaGhiChu(String id, String newName) {
-  setState(() {
+  late Box<DuLieu> box;
+  List<DuLieu> items = [];
+  @override
+  void initState() {
+    super.initState();
+    box = Hive.box<DuLieu>('ghichu_box');
+    items = box.values.cast<DuLieu>().toList();
+  }
+  void ThemGhiChu(String name) async {
+    final newItem = DuLieu(id: DateTime.now().toString(), name: name);
+    await box.add(newItem);
+    setState(() {
+      items = box.values.cast<DuLieu>().toList();
+  });
+  }
+  void SuaGhiChu(String id, String newName) async {
     final index = items.indexWhere((item) => item.id == id);
     if (index != -1) {
-      items[index] = DuLieu(id: id, name: newName);
+      final newItem = DuLieu(id: id, name: newName);
+      await box.putAt(index, newItem);
+      setState(() {
+        items = box.values.cast<DuLieu>().toList();
+      });
     }
-  });
-}
-
-  void ThemGhiChu(String name){
-    final newItem = DuLieu(id: DateTime.now().toString(),name: name);
-    setState((){
-      items.add(newItem);
-    });
   }
-  void XoaGhiChu(String id){
-   setState((){
-     items.removeWhere((item) => item.id == id);
-   });
 
-  }
+  void XoaGhiChu(String id) async {
+    final index = items.indexWhere((item) => item.id == id);
+    if (index != -1) {
+      await box.deleteAt(index);
+      setState(() {
+        items = box.values.cast<DuLieu>().toList();
+      });
+    }
+  }  
 
   @override
   Widget build(BuildContext context){
@@ -47,13 +63,35 @@ class _MyAppState extends State<MyApp> {
 
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'Note VHA',
-          style:TextStyle(fontSize: 40),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'N',
+                style: TextStyle(
+                  fontFamily:'AutumnFlowers',
+                  fontSize:45,
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text:'ote',
+                style: TextStyle(
+                  fontFamily: 'Bulgatti',
+                  fontSize:28,
+                  color:Colors.black,
+                ),
+              ),
+            ],
+          ),
         ),
-        backgroundColor: Color.fromARGB(255, 1, 98, 255),
-        elevation: 8,
-        shadowColor: const Color.fromARGB(255, 63, 19, 82).withOpacity(0.3),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            image:DecorationImage(image: AssetImage('assets/appbar.jpg'),
+              fit:BoxFit.cover,
+            ),
+          ),
+        ),
       ),
       body: Container(
         width: double.infinity,

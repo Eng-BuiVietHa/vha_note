@@ -5,7 +5,7 @@ class NhapGhiChu extends StatelessWidget {
     Key? key,
     required this.addTask
   }): super(key:key);
-  final Function addTask;
+  final Function(String) addTask;
 
   TextEditingController controller=TextEditingController();
 
