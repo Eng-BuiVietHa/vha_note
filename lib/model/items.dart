@@ -8,10 +8,18 @@ class DuLieu {
   final String id;
 
   @HiveField(1)
-  final String name;
+  final String name;  // trường bạn đang dùng
+
+  @HiveField(2)
+  final String labelId; // id nhóm/label
+
+  @HiveField(3)
+  final DateTime createdAt;
 
   DuLieu({
     required this.id,
     required this.name,
+    required this.labelId,
+    required this.createdAt,
   });
 }

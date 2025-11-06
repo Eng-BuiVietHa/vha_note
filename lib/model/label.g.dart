@@ -1,41 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'items.dart';
+part of 'label.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DuLieuAdapter extends TypeAdapter<DuLieu> {
+class LabelAdapter extends TypeAdapter<Label> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  DuLieu read(BinaryReader reader) {
+  Label read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DuLieu(
+    return Label(
       id: fields[0] as String,
       name: fields[1] as String,
-      labelId: fields[2] as String,
-      createdAt: fields[3] as DateTime,
+      colorValue: fields[2] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, DuLieu obj) {
+  void write(BinaryWriter writer, Label obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.labelId)
-      ..writeByte(3)
-      ..write(obj.createdAt);
+      ..write(obj.colorValue);
   }
 
   @override
@@ -44,7 +41,7 @@ class DuLieuAdapter extends TypeAdapter<DuLieu> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DuLieuAdapter &&
+      other is LabelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
